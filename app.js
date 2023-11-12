@@ -1,5 +1,5 @@
 const express = require('express')
-const router = require('./src/route/api')
+const router = require('./src/routes/api')
 const app= express()
 const bodyParser= require('body-parser')
 require('dotenv').config();
@@ -29,6 +29,14 @@ app.use(bodyParser.json())
 const limiter = rateLimit({windowMs:15*60*100,max:3000})
 
 // Database
+const mongoose= require('mongoose')
+mongoose
+    .connect(process.env.DATABASE)
+    .then(() => {
+       
+            console.log("DB Connected");
+    })
+    .catch((err) => console.log(err));
 
 
 // FrontEnd Tagging
