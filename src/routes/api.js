@@ -15,7 +15,7 @@ router.get("/",async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 })
-=======
+
 router.post("/comment", createComment);
 router.get("/comments", getComments);
 router.put("/comment/:commentId", updateComment);
