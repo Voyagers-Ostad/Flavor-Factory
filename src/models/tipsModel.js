@@ -17,7 +17,7 @@ const dataSchema = new mongoose.Schema(
     },
     field: {
       type: String,
-      enum: ["kitchen tools", "new kitchen set", "culinary"],
+      enum: ["kitchen tips", "tools tips", "recipes tips"],
     },
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -28,5 +28,5 @@ const dataSchema = new mongoose.Schema(
   { timestamps: true, versionKey: false }
 );
 
-const blogsModel = mongoose.model("blogs", dataSchema);
-module.exports = blogsModel;
+const tipsModel = mongoose.model("tips", dataSchema);
+module.exports = tipsModel;
