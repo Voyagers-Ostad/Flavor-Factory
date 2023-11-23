@@ -1,5 +1,9 @@
 const express = require("express");
 const router = express.Router();
+
+
+// API Routing
+
 const {
   createComment,
   getComments,
@@ -20,6 +24,5 @@ router.post("/comment", createComment);
 router.get("/comments", getComments);
 router.put("/comment/:commentId", updateComment);
 router.delete("/comment/:commentId", deleteComment);
-
 
 module.exports = router;
