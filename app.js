@@ -1,8 +1,13 @@
-const express = require("express");
-const router = require("./src/routes/api");
-const app = express();
-const bodyParser = require("body-parser");
-require("dotenv").config();
+
+
+const express = require('express')
+const router = require('./src/routes/api')
+const recipeRouter = require('./src/routes/recipeAPI')
+const app= express()
+const bodyParser= require('body-parser')
+require('dotenv').config();
+
+
 
 //Security Midduleware
 const helmet = require("helmet");
@@ -35,12 +40,17 @@ mongoose
   .catch((err) => console.log(err));
 
 // FrontEnd Tagging
-app.use(express.static("client/dist"));
-app.get("*", function (req, res) {
-  req.sendFile(__dirname, "client", "build", "index.html");
-});
+
+// app.use(express.static('client/dist'))
+// app.get("*",function(req,res){
+//     req.sendFile(__dirname,'client','build','index.html')
+// })
 
 // Managing BackEnd API Routing
-app.use("/api/v1", router);
+
+app.use("/api/v1",router)
+app.use("/api/v1/recipe",recipeRouter)
+
+
 
 module.exports = app;
