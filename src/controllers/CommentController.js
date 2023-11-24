@@ -30,7 +30,6 @@ exports.createComment = async (req, res) => {
 //read all comments
 exports.getComments = async (req, res) => {
   try {
-    console.log("cadjadhjdh", req.params);
     const comments = await Comment.find(req.params.recipe_id);
     console.log(comments);
     res.json(comments);
@@ -41,7 +40,6 @@ exports.getComments = async (req, res) => {
 //update comments
 exports.updateComment = async (req, res) => {
   try {
-    console.log("update");
     const { comment_detail, rating, recipe_id } = req.body;
     //const recipe_id = req.params.recipe_id;
     const comment = await Comment.findByIdAndUpdate(

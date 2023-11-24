@@ -1,5 +1,6 @@
 const express = require("express");
 const router = require("./src/routes/api");
+const commentRouter = require("./src/routes/commentRouter");
 const app = express();
 const bodyParser = require("body-parser");
 require("dotenv").config();
@@ -42,5 +43,6 @@ mongoose
 
 // Managing BackEnd API Routing
 app.use("/api/v1", router);
+app.use("/api/v1/comments", commentRouter);
 
 module.exports = app;
