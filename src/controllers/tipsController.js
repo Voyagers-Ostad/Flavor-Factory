@@ -41,7 +41,7 @@ exports.readOneTips = (req, res) => {
 //update
 exports.updateTips = (req, res) => {
   let id = req.params.id;
-  console.log(id);
+  // console.log(id);
   let query = { _id: id };
   let reqBody = req.body;
   TipsModel.updateOne(query, reqBody)

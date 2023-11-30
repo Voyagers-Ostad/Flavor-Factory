@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 const dataSchema = new mongoose.Schema(
   {
     id: {
-      type: Number,
-      required: true,
-      unique: true,
-      index: true,
+      type: mongoose.Schema.Types.ObjectId,
     },
     name: {
       type: String,
@@ -17,13 +14,13 @@ const dataSchema = new mongoose.Schema(
     },
     field: {
       type: String,
-      enum: ["kitchen tips", "tools tips", "recipes tips"],
+      enum: ["kitchen-tips", "tools-tips", "recipe-tips"],
     },
-    user_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-      required: true,
-    },
+    // user_id: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "user",
+    //   required: true,
+    // },
   },
   { timestamps: true, versionKey: false }
 );

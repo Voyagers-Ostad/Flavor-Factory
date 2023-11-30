@@ -41,7 +41,7 @@ exports.readOnePost = (req, res) => {
 //update
 exports.updatePost = (req, res) => {
   let id = req.params.id;
-  console.log(id);
+  // console.log(id);
   let query = { _id: id };
   let reqBody = req.body;
   BlogsModel.updateOne(query, reqBody)

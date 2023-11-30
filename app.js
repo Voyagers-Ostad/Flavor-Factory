@@ -1,13 +1,12 @@
+const express = require("express");
+const router = require("./src/routes/api");
+const recipeRouter = require("./src/routes/recipeAPI");
+const blogsRouter = require("./src/routes/blogsAPI");
+const tipsRouter = require("./src/routes/tipsAPI");
 
-
-const express = require('express')
-const router = require('./src/routes/api')
-const recipeRouter = require('./src/routes/recipeAPI')
-const app= express()
-const bodyParser= require('body-parser')
-require('dotenv').config();
-
-
+const app = express();
+const bodyParser = require("body-parser");
+require("dotenv").config();
 
 //Security Midduleware
 const helmet = require("helmet");
@@ -48,9 +47,9 @@ mongoose
 
 // Managing BackEnd API Routing
 
-app.use("/api/v1",router)
-app.use("/api/v1/recipe",recipeRouter)
-
-
+app.use("/api/v1", router);
+app.use("/api/v1/recipe", recipeRouter);
+app.use("/api/v1/blogs", blogsRouter);
+app.use("/api/v1/tips", tipsRouter);
 
 module.exports = app;
