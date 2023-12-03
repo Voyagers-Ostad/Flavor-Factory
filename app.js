@@ -1,6 +1,5 @@
 const express = require("express");
 const router = require("./src/routes/api");
-const commentRouter = require("./src/routes/commentRouter");
 const app = express();
 const bodyParser = require("body-parser");
 require("dotenv").config();
@@ -36,13 +35,18 @@ mongoose
   .catch((err) => console.log(err));
 
 // FrontEnd Tagging
+
 // app.use(express.static('client/dist'))
 // app.get("*",function(req,res){
 //     req.sendFile(__dirname,'client','build','index.html')
 // })
 
 // Managing BackEnd API Routing
-app.use("/api/v1", router);
+
+app.use("/api/v1",router)
+app.use("/api/v1/recipe",recipeRouter)
+
+
 app.use("/api/v1/comments", commentRouter);
 
 module.exports = app;
