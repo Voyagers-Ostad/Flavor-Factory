@@ -65,3 +65,34 @@ exports.deleteRecipe = async (req, res) => {
     });
   }
 };
+// =============search Recipe===========
+exports.recipeSearch = async (req, res) => {
+  try {
+    const queryConditions = [];
+
+    // Loop through the request query parameters dynamically
+    for (const key in req.query) {
+      if (req.query.hasOwnProperty(key)) {
+        const values = req.query[key].split(",");
+
+        // Validate that values are present
+        if (values.length > 0) {
+          // Create a condition for the field with an array of values
+          queryConditions.push({ [key]: { $in: values } });
+        }
+      }
+    }
+
+    if (queryConditions.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "No valid filter criteria provided" });
+    }
+
+    // Use an array to represent the $and condition
+    const results = await Recipe.find({ $and: queryConditions });
+    res.json(results);
+  } catch (err) {
+    console.log(err);
+  }
+};
