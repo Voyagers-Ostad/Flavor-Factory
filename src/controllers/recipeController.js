@@ -13,20 +13,29 @@ exports.createRecipe = async (req, res) => {
 // =============readRecipes===========
 exports.readRecipes = async (req, res) => {
   try {
-      const listRecipe = await Recipe.find({})
-          .limit(5)
-          .sort({ createdAt: -1 });
+    const listRecipe = await Recipe.find({}).limit(5).sort({ createdAt: -1 });
 
-      res.json(listRecipe);
+    res.json(listRecipe);
   } catch (err) {
-      console.log(err);
+    console.log(err);
   }
-}
+};
 // =============updateRecipe===========
 exports.updateRecipe = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, ingredients, is_bake,meal,cuisine,occasion,cookTime,detail,category,servings } = req.body;
+    const {
+      title,
+      ingredients,
+      is_bake,
+      meal,
+      cuisine,
+      occasion,
+      cookTime,
+      detail,
+      category,
+      servings,
+    } = req.body;
     const recipe = await Recipe.findByIdAndUpdate(
       id,
       { ...req.body },
@@ -50,8 +59,8 @@ exports.updateRecipe = async (req, res) => {
 // =============deleteRecipe===========
 exports.deleteRecipe = async (req, res) => {
   try {
-    const recipe = await Recipe.findByIdAndDelete(req.params.id)
-     
+    const recipe = await Recipe.findByIdAndDelete(req.params.id);
+
     return res.status(200).send({
       success: true,
       message: "Recipe Deleted!",
@@ -94,5 +103,62 @@ exports.recipeSearch = async (req, res) => {
     res.json(results);
   } catch (err) {
     console.log(err);
+  }
+};
+// dropdowns
+exports.getAllMeals = async (req, res) => {
+  try {
+    const dropdownValues = await Recipe.find({}, { _id: 0 });
+    console.log(dropdownValues);
+    const uniqueMealsArray = [
+      ...new Set(dropdownValues.flatMap((item) => item.meal)),
+    ];
+
+    console.log(uniqueMealsArray);
+    res.json(uniqueMealsArray);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+exports.getAllIngr = async (req, res) => {
+  try {
+    const dropdownValuesIngr = await Recipe.find(
+      {},
+      { ingredients: 1, _id: 0 }
+    );
+    console.log(dropdownValuesIngr);
+    const uniqueIngrArray = [
+      ...new Set(dropdownValuesIngr.flatMap((item) => item.ingredients)),
+    ];
+    // console.log(uniqueBakeArray);
+    res.json(uniqueIngrArray);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+exports.getAllOccasion = async (req, res) => {
+  try {
+    const dropdownValuesOcs = await Recipe.find({}, { occasion: 1, _id: 0 });
+    console.log(dropdownValuesOcs);
+    const uniqueOcsArray = [
+      ...new Set(dropdownValuesOcs.flatMap((item) => item.occasion)),
+    ];
+    // console.log(uniqueBakeArray);
+    res.json(uniqueOcsArray);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+exports.getAllCuisines = async (req, res) => {
+  try {
+    const dropdownValuesCuisine = await Recipe.find({}, { cuisine: 1, _id: 0 });
+    console.log(dropdownValuesCuisine);
+    const uniqueCuisineArray = [
+      ...new Set(dropdownValuesCuisine.flatMap((item) => item.cuisine)),
+    ];
+    // console.log(uniqueBakeArray);
+    res.json(uniqueCuisineArray);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
