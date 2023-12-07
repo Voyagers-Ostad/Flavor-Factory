@@ -1,7 +1,15 @@
-const express = require('express')
-const router= express.Router()
+const express = require("express");
+const router = express.Router();
+
+// const {
+//   createComment,
+//   getComments,
+//   updateComment,
+//   deleteComment,
+// } = require("../controllers/CommentController");
 
 // API Routing
+
 router.get("/",async (req, res) => {
     try {
         res.status(200).json("hello");
@@ -10,7 +18,9 @@ router.get("/",async (req, res) => {
     }
 })
 
+// router.post("/comment/:recipeId", checkForAuth('token'),createComment);
+// router.get("/comments", getComments);
+// router.put("/comment/:commentId", updateComment);
+// router.delete("/comment/:commentId", deleteComment);
 
-
-
-module.exports=router
+module.exports = router;
