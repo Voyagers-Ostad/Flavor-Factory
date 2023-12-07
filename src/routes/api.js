@@ -1,14 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// const {
-//   createComment,
-//   getComments,
-//   updateComment,
-//   deleteComment,
-// } = require("../controllers/CommentController");
 
-// API Routing
 
 router.get("/",async (req, res) => {
     try {
@@ -18,9 +11,6 @@ router.get("/",async (req, res) => {
     }
 })
 
-// router.post("/comment/:recipeId", checkForAuth('token'),createComment);
-// router.get("/comments", getComments);
-// router.put("/comment/:commentId", updateComment);
-// router.delete("/comment/:commentId", deleteComment);
+
 
 module.exports = router;
