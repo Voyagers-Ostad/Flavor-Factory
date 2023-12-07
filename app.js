@@ -44,6 +44,7 @@ const limiter = rateLimit({ windowMs: 15 * 60 * 100, max: 3000 });
 
 // Database
 const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.DATABASE)
   .then(() => {
