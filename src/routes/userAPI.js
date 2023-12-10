@@ -6,7 +6,7 @@ const { checkForAuth}=require('../middlewares/auth')
 
 // Route for user signup
 router.post('/signup', userSignupValidator, validate, userSignup);
-router.get('/login', userLoginValidator, validate, userLogin);
+router.post('/login', userLoginValidator, validate, userLogin);
 
 // Private routes (authentication required)
 // router.use(checkForAuth('token'));
