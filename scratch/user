@@ -1,0 +1,12 @@
+{
+  name: 'Shatabdi',
+  email: 'shatabdi.barua7@gmail.com',
+  password: '$2b$10$tDXBtEa.59N3G/F6ry6D8epwRyh7kuahMB1EjAws0xDxVVDk8bIJ.',
+  address: 'Mohammadpur, Dhaka',
+  admin: false,
+  otp: 3444,
+  isActivated: false,
+  _id: new ObjectId("657f44f6ff4d210a9e4a26a8"),
+  createdAt: 2023-12-17T18:59:02.565Z,
+  updatedAt: 2023-12-17T18:59:02.565Z
+}

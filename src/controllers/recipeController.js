@@ -1,13 +1,72 @@
 const Recipe = require("../models/recipeModel.js");
+const mongoose = require("mongoose");
+const upload = require("../helpers/multerConfig.js");
+const cloudinary = require("../helpers/cloudinaryConfig");
+const fs = require("fs").promises;
+const path = require("path");
 
 // =============createRecipe===========
 exports.createRecipe = async (req, res) => {
   try {
-    const newRecipe = await Recipe.create(req.body);
+    const {
+      title,
+      ingredients,
+      is_bake,
+      meal,
+      cuisine,
+      occasion,
+      cookTime,
+      detail,
+      category,
+      servings,
+    } = req.body;
+    const photo = req.file;
+
+    // console.log(photo)
+
+    // Create a temporary file path
+    const tempFilePath = path.join(
+      __dirname,
+      "../temp",
+      `${photo.originalname}`
+    );
+
+    // Write the buffer to the temporary file
+    await fs.writeFile(tempFilePath, photo.buffer);
+
+    const result = await cloudinary.uploader.upload(tempFilePath, {
+      folder: "recipe_images",
+    });
+    // Remove the temporary file
+    await fs.unlink(tempFilePath);
+
+    // Get the CDN URL
+    const photoUrl = result.secure_url;
+
+    const createdBy = req.user._id;
+
+    const newRecipe = new Recipe({
+      title,
+      ingredients,
+      is_bake,
+      meal,
+      cuisine,
+      photo: photoUrl,
+      occasion,
+      cookTime,
+      detail,
+      category,
+      servings,
+      createdBy,
+    });
+
+    await newRecipe.save();
     res.status(201).json(newRecipe);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };
 // =============readRecipes===========
@@ -20,6 +79,18 @@ exports.readRecipes = async (req, res) => {
     console.log(err);
   }
 };
+// =============readRecipe===========
+exports.readOneRecipe = async (req, res) => {
+  try {
+    const recipeId = req.params.recipeId;
+    const recipe = await Recipe.findById(recipeId);
+
+    res.json(recipe);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 // =============updateRecipe===========
 exports.updateRecipe = async (req, res) => {
   try {
@@ -74,6 +145,8 @@ exports.deleteRecipe = async (req, res) => {
     });
   }
 };
+
+// shatabdi
 // =============search Recipe===========
 exports.recipeSearch = async (req, res) => {
   try {
@@ -109,12 +182,12 @@ exports.recipeSearch = async (req, res) => {
 exports.getAllMeals = async (req, res) => {
   try {
     const dropdownValues = await Recipe.find({}, { _id: 0 });
-    console.log(dropdownValues);
+    // console.log(dropdownValues);
     const uniqueMealsArray = [
       ...new Set(dropdownValues.flatMap((item) => item.meal)),
     ];
 
-    console.log(uniqueMealsArray);
+    // console.log(uniqueMealsArray);
     res.json(uniqueMealsArray);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
@@ -126,7 +199,7 @@ exports.getAllIngr = async (req, res) => {
       {},
       { ingredients: 1, _id: 0 }
     );
-    console.log(dropdownValuesIngr);
+    // console.log(dropdownValuesIngr);
     const uniqueIngrArray = [
       ...new Set(dropdownValuesIngr.flatMap((item) => item.ingredients)),
     ];
@@ -139,7 +212,7 @@ exports.getAllIngr = async (req, res) => {
 exports.getAllOccasion = async (req, res) => {
   try {
     const dropdownValuesOcs = await Recipe.find({}, { occasion: 1, _id: 0 });
-    console.log(dropdownValuesOcs);
+    // console.log(dropdownValuesOcs);
     const uniqueOcsArray = [
       ...new Set(dropdownValuesOcs.flatMap((item) => item.occasion)),
     ];
@@ -152,7 +225,7 @@ exports.getAllOccasion = async (req, res) => {
 exports.getAllCuisines = async (req, res) => {
   try {
     const dropdownValuesCuisine = await Recipe.find({}, { cuisine: 1, _id: 0 });
-    console.log(dropdownValuesCuisine);
+    // console.log(dropdownValuesCuisine);
     const uniqueCuisineArray = [
       ...new Set(dropdownValuesCuisine.flatMap((item) => item.cuisine)),
     ];
